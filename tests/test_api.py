@@ -41,7 +41,7 @@ def test_duplicated_translation_should_be_te_same(client):
   received = json.loads(response.data)
   assert 'uid' in received and received['uid'] is not None
 
-  second_response = request_translation(client, initial)
+  request_translation(client, initial)
   response = request_translation(client, initial)
   assert response.status_code == 200
 
@@ -71,6 +71,5 @@ def test_check_created_translation_status(client):
 
   second_received = json.loads(request.data)
   assert received['uid'] == second_received['uid']
-
-  print(second_received['status'])
-  assert 0
+  assert second_received['status'] == 'completed'
+  assert second_received['text'] is not None
