@@ -1,0 +1,7 @@
+flask
+flask-cors
+peewee
+psycopg2
+-e git+https://github.com/Unbabel/unbabel-py.git@feature/python3#egg=unbabel-py
+pytest
+coverage

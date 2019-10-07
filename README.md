@@ -1,39 +1,121 @@
 # Unbabel Fullstack Challenge
 
-Hey :smile:
+A translation web app based on the Unbabel API with the following functionallity
 
-Welcome to our Fullstack Challenge repository. This README will guide you on how to participate in this challenge.
+1) Flask backend to perform translations using the Unbabel API
+2) Web app with an input field that takes an English (EN) input translates it to Spanish (ES).    
+3) List the performed translations with their state
+4) The list is ordered by the size of the translated messages
 
-In case you are doing this to apply for our open positions for a Fullstack Developer make sure you first check the available jobs at [https://unbabel.com/jobs](https://unbabel.com/jobs)
+## Install
 
-Please fork this repo before you start working on the challenge. We will evaluate the code on the fork.
+### Requirements
+In order to run it is necessary to have Python 3.
+It is recomended to use a virtual environment to manage the packages used in the application.
 
-**FYI:** Please understand that this challenge is not decisive if you are applying to work at [Unbabel](https://unbabel.com/jobs). There are no right and wrong answers. This is just an opportunity for us both to work together and get to know each other in a more technical way.
+Create a virtual environment and use it:
+```bash
+$ python3 -m venv venv
+$ source venv/bin/activate
+```
 
-## Challenge
+Or on Windows cmd:
+```
+$ py -3 -m venv venv
+$ venv\Scripts\activate.bat
+```
 
-We're going to build a very simple translation web app based on the Unbabel API.
+Install the required packages:
+```bash
+$ pip install -r requirements.txt
+```
 
-You can find more info about the api at [https://developers.unbabel.com](https://developers.unbabel.com)
+Define the environment variables:
+```bash
+$ export FLASK_APP=flaskr
+$ export FLASK_ENV=development
+```
 
-1) Request an API Key to your hiring manager or point of contact for the hiring process at Unbabel so you can use the API for this tutorial.  
-2) Build a basic web app with a simple input field that takes an English (EN) input translates it to Spanish (ES).  
-3) When a new translation is requested it should add to a list below the input field (showing one of three status: requested, pending or translated) - (note: always request human translation)   
-4) The list should be dynamically ordered by the size of the translated messages   
+Or on Windows cmd:
+```
+set FLASK_APP=flaskr
+set FLASK_ENV=development
+flask run
+```
 
-#### Requirements
-* Use Flask web framework
-* Use Bootstrap
-* Use PostgreSQL
-* Create a scalable application. 
-* Only use Unbabel's Translation API on sandbox mode
-* Have tests
+Initialize the database:
+```bash
+$ flask init-db
+```
+
+### Configuration
+In order for the backend to work it is necessary to have a configuration file.
+It should be created one file named `config.py` under the `flaskr` directory.
+
+The file should contain values for the Unbabel user and it's key, it can also be provided an database url.
+The database url is composed of the scheme, connection details and the database name.
+
+An example of an possible configuration file is:
+```python
+API_USERNAME='api_username'
+API_KEY='api_key'
+TEST_API=True
+
+DATABASE='postgresql://postgres_user:postgres_passwd@localhost:5432/postgres_database'
+SECRET_KEY='A secret key'
+```
+
+**Note** If no database url is provided a default sqlite database will be used.
+
+## Web application
+The web application source files are under the `client` folder.
+
+**Note** In order to create a build for the application it is necessary to have `node` installed.
+
+Enter the `client` folder and install the `node` packages
+```bash
+cd client
+npm install
+```
+
+After that is possible to build the application with
+```bash
+npm run build
+```
+
+This will produce a build ready for production of the web application under the folder `www`
 
 
-#### Notes
-* Page load time shouldnt exceed 1 second
 
+## Run
 
-#### Resources
-* Unbabel's API: http://developers.unbabel.com/
+Launch a built-in Flask development server:
+```bash
+$ flask run
+```
+After launch it is possible to open a browser page with the address [127.0.0.1:5000](http://127.0.0.1:5000).
 
+The build files of the web application are served under the `www` folder in root ``/`` endpoint and the `api` at the ``/api`` endpoint.
+
+> The Flask's built-in server is not suitable for production, refer to the [documentation](https://flask.palletsprojects.com/en/1.1.x/deploying/) for further info.
+
+### Development
+It is possible to launch a development version of the web application with the following command under the `client` directory
+```bash
+npm run dev
+```
+This will start a development server under the address [http://127.0.0.1:8080](http://127.0.0.1:8080)
+
+**Note** It is necessary to have the `flask` backend running to successfully use the web application.
+
+## Test
+Start the tests with:
+```bash
+$ python -m pytest
+```
+
+Run tests with coverage report:
+```bash
+$ coverage run -m pytest
+$ coverage report
+$ coverage html  # open htmlcov/index.html in a browser
